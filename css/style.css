@@ -1,0 +1,171 @@
+/* 
+Name: Marittya Keu
+Email: Marittya_keu@student.uml.edu
+Course: GUI Programming 1
+Assignment 4
+Description: External CSS file
+*/
+
+.sidenav {
+    background-color: #3F69AA;
+    height: 100%;
+}
+
+div.sidenav {
+    position: fixed;
+}
+
+div#scrollable {
+    margin-left: 20%;
+}
+
+img {
+    display: inline-block;
+    transition: all 1.5s ease-in-out;
+}
+
+img[alt="headshot"] {
+    border-radius: 50%;
+    border: 10px solid #485167;
+    margin-left: 15%;
+    margin-top: 50%;
+}
+
+
+img[alt="logo"] {
+    margin-bottom: 50px;
+}
+
+
+img[alt="logo"]:hover {
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+}
+
+/* 
+This property was copied off of w3 schools from the link below
+https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_image_shake
+*/
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }
+
+img[alt="headshot"]:hover {
+    transform: rotateY(360deg);
+    border:10px solid #95DEE3;
+}
+
+li {   
+    list-style-type: none;
+    margin-left: 20%;
+    padding: 20px 0 10px 0; 
+}
+
+li a {
+    display: inline-block;
+    transition: all .3s ease-in-out;
+    font-size: 25px;
+    color: #485167;
+    font-family: 'Oswald', sans-serif;
+    font-weight: bolder;
+}
+
+li a:hover {
+    transform: scale(1.5);
+    color: #95DEE3;
+    text-decoration: none;
+}
+
+.my-auto {
+    display: block;
+    height: 225px;
+}
+section {
+    font-family: 'Oswald', sans-serif;
+    margin: 20%;
+    margin-bottom: 25%;
+}
+
+.fullname {
+    margin-top:20%;
+    font-size: 75px;
+    color: #485167;
+}
+
+.info {
+    font-size: 25px;
+}
+
+.desc {
+    font-size: 20px;
+}
+
+/* Social Media Section */
+.fa-facebook {
+    color: #485167;
+}
+
+.fa-facebook:hover {
+    background: #3B5998;
+    color: white;
+    text-decoration: none;
+}
+
+.fa-twitter {
+    color: #485167;
+}
+.fa-twitter:hover {
+    background: #55ACEE;
+    color: white;
+    text-decoration: none;
+}
+
+.fa-linkedin {
+    color: #485167;
+}
+
+.fa-linkedin:hover {
+    background: #007bb5;
+    color: white;
+    text-decoration: none;
+}
+
+.fa-github {
+    color: #485167;
+}
+
+.fa-github:hover {
+    color:#211F1F;
+    transform: scale(2);
+    text-decoration: none;
+}
+
+.fa-envelope {
+    color: #485167;
+}
+
+.fa-envelope:hover {
+    color: #485167;
+    text-decoration: none;
+    transform: scale(2);
+}
+.fa {
+    size: 50px;
+    padding: 20px;
+    width: 10%;
+    text-align: center;
+    text-decoration: none;
+    margin: 1%;
+    border-radius: 60%;
+  }
+  
