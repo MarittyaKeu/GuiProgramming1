@@ -31,15 +31,13 @@ img[alt="headshot"] {
     margin-top: 50%;
 }
 
-
-img[alt="logo"] {
-    margin-bottom: 50px;
-}
-
-
 img[alt="logo"]:hover {
     animation: shake 0.5s;
     animation-iteration-count: infinite;
+}
+
+img[alt="logo"] {
+    margin-left:15%;
 }
 
 /* 
@@ -90,6 +88,7 @@ li a:hover {
     display: block;
     height: 225px;
 }
+
 section {
     font-family: 'Oswald', sans-serif;
     margin: 20%;
@@ -119,15 +118,18 @@ section {
     background: #3B5998;
     color: white;
     text-decoration: none;
+    transform: scale(1.1);
 }
 
 .fa-twitter {
     color: #485167;
 }
+
 .fa-twitter:hover {
     background: #55ACEE;
     color: white;
     text-decoration: none;
+    transform: scale(1.1);
 }
 
 .fa-linkedin {
@@ -138,6 +140,7 @@ section {
     background: #007bb5;
     color: white;
     text-decoration: none;
+    transform: scale(1.1);
 }
 
 .fa-github {
@@ -159,13 +162,14 @@ section {
     text-decoration: none;
     transform: scale(2);
 }
+
 .fa {
-    size: 50px;
     padding: 20px;
-    width: 10%;
-    text-align: center;
+    width: 15%;
+    text-align: left;
     text-decoration: none;
     margin: 1%;
-    border-radius: 60%;
+    padding-left: 5%;
+    border-radius: 50%;
   }
   
