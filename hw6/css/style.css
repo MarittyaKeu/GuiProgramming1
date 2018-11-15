@@ -1,0 +1,25 @@
+th {
+  background-color: #d96459;
+}
+
+body {
+  padding-top: 7%;
+}
+
+header {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+form input {
+  display: inline-block;
+  width: 100%;
+}
+
+tr:nth-child(even) {
+  background-color: #ffcc66;
+}
+
+tr:nth-child(odd) {
+  background-color: #FFEAC1;
+}
