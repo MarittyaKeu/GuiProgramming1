@@ -54,16 +54,17 @@ function doSomething() {
     */
     if (hend < hstart) {
       document.getElementById("hend").style.border = "3px solid red";
-      alert("Horizontal end must be a greater value than start.")
-      return;
     }
 
     if (vend < vstart) {
       document.getElementById("vend").style.border = "3px solid red";
-      alert("Vertical end must be a greater value than start.")
-      return;
+
     }
 
+    if (vend < vstart || hend < hstart) {
+      alert("End value must be a greater value than start.");
+      return;
+    }
 
     /*
     Added a max number value restriction to 350
@@ -81,7 +82,6 @@ function doSomething() {
       alert('Please enter a value less than 350');
       return;
     }
-
 
 
     /*
