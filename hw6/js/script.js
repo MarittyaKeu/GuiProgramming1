@@ -1,3 +1,13 @@
+/*
+Marittya Keu
+marittya_keu@student.uml.edu
+GUI Programming 1 Homework 6
+
+Description: Javascript page that creates dynamic multiplication table.
+Grabs users input from a form and uses values in a double for loop to do
+the multiplcation.
+*/
+
 var table = document.getElementById('table1');
 
 function doSomething() {
