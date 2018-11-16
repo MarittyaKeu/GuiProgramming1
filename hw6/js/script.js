@@ -1,6 +1,7 @@
 var table = document.getElementById('table1');
 
 function doSomething() {
+  document.getElementById("table1").style.visibility = "visible";
     // get values from user inputs
     var hstart = document.getElementById('hstart').value;
     var hend = document.getElementById('hend').value;
@@ -115,5 +116,5 @@ function doSomething() {
 Function "hides" the table element by changing display visibility
 */
 function clearForm() {
-  document.getElementById("table1").style.display = "none";
+  document.getElementById("table1").style.visibility = "hidden";
 }
