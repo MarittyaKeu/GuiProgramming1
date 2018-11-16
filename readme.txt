@@ -4,6 +4,8 @@ Assignment 4
 
 http://weblab.cs.uml.edu/~mkeu/index.html
 
+It is also hosted via GitPages here...
+https://marittyakeu.github.io/GuiProgramming1/
 
 The website is a simple introduction using basic web development techniques. It has the basic HTML structure (Doctype declaration, header and body tags, etc.) and contains an index html file, an external stylesheet, an image folder, and Bootstrap. The sidebar has links to the assignments.
 

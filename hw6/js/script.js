@@ -1,7 +1,4 @@
-
-
 var table = document.getElementById('table1');
-
 
 function doSomething() {
     // get values from user inputs
@@ -56,6 +53,26 @@ function doSomething() {
       return;
     }
 
+
+    /*
+    Added a max number value restriction to 350
+    */
+    if (hend > 350) {
+      document.getElementById("hend").style.border = "3px solid red";
+
+    }
+
+    if (vend > 350) {
+      document.getElementById("vend").style.border = "3px solid red";
+    }
+
+    if(hend > 350 || vend > 350) {
+      alert('Please enter a value less than 350');
+      return;
+    }
+
+
+
     /*
      build up header variable on the top to prepend to main table variable
     */
@@ -91,4 +108,12 @@ function doSomething() {
   document.getElementById("hstart").style.border = null;
   document.getElementById("vstart").style.border = null;
   document.getElementById("vend").style.border = null;
+}
+
+
+/*
+Function "hides" the table element by changing display visibility
+*/
+function clearForm() {
+  document.getElementById("table1").style.display = "none";
 }
