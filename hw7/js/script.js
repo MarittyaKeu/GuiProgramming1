@@ -55,8 +55,8 @@ function doSomething(vstart, vend, hstart, hend) {
 Function "hides" the table element by changing display visibility
 */
 function clearForm() {
+  resetForm();
   $("#table1").css("visibility", "hidden");
-  
 }
 
 
