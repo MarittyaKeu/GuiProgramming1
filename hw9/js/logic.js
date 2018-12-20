@@ -6,24 +6,23 @@ Description: JavaScript logic for Scrabble. Builds out the entire Scrabble board
 and adds extra classes to them base on tile score (double, triple, etc.). There are functions 
 to calculate scores , rerack letters, etc.
 */
-let putBack = false;
+let putBack = false; 
 let firstTile = true;
-let gameStart = false;
-let value;
-let objValue;
-let letterID;
+let gameStart = false; 
+let value; 
+let draggableId; 
+let objValue; 
+let letterID; 
 let adjacentTile = false;
-let originalValue, originalId;
-let draggableId;
-let totalGameScore = 0;
-let totalPlayScore = 0;
-let multiplier = 0;
+let originalValue, originalId; 
+let originalDropOutID; 
+let totalGameScore = 0; 
+let totalPlayScore = 0; 
+let multiplier = 0; 
+let revert = false; 
 
-var letters = [];
-//save the rack tile index to remove its child when swapping
-var playedLetter = [];
 
-let json = (function () {
+let json = (function () { 
     var json = null;
     $.ajax({
         'async': false,
@@ -36,12 +35,193 @@ let json = (function () {
     return json;
 })();
 
+var letters = [];
+var playedLetter = []; 
 
-$(function () {
+$(document).ready(function () {
+
 
     generateTable();
+
+    function getWords(id, words, orentation = true) { 
+        let bidn, fidn, bvalue, fvalue, la, lb, next, prev;
+        next = prev = 1;
+        bidn = fidn = id.slice(1);
+        la = lb = id.slice(0, 1);
+        do {
+            if (orentation) { 
+                bidn = parseInt(bidn) - prev;
+                fidn = parseInt(fidn) + next;
+            } else { 
+                la = String.fromCharCode(parseInt(la.charCodeAt(0)) - prev);
+                lb = String.fromCharCode(parseInt(lb.charCodeAt(0)) + next);
+            }
+            bvalue = $("#" + la + bidn).attr("value");
+            fvalue = $("#" + lb + fidn).attr("value");
+            if (bvalue !== undefined) {
+                words = bvalue + words;
+            } else {
+                prev = 0;
+            }
+            if (fvalue !== undefined) {
+                words = words + fvalue;
+            } else {
+                next = 0;
+            }
+        } while (bvalue !== undefined || fvalue !== undefined);
+        return words;
+    }
+
+
+    let dropout = false;
+    $(".snap").droppable({ 
+
+        out: function () {
+            if (!dropout) { 
+                originalValue = $(this).attr("value");
+                originalDropOutID = $(this).attr("id");
+                $(this).removeAttr("value");
+                dropout = true;
+            }
+
+        },
+        drop: function (event, ui) {
+            let id = $(this).attr("id");
+            let cls = $(this).attr("class");
+            let star = $("#h7").attr("value"); 
+            dropout = false;
+
+            if (cls.slice(5, 16) === "letterStand") {
+                putBack = true;
+            } else {
+                putBack = false;
+            }
+
+            if (id !== "h7" && star === undefined) {
+            } else {
+                if (($(this).attr("value")) !== undefined) {
+                    revert = true;
+                    $("#" + originalDropOutID).attr("value", originalValue);
+                } else {
+
+                    gameStart = true;
+                    let sindex;  
+                    for (let i = 0; i < letters.length; i++) {
+                        if (value === letters[i].letter) {
+                            objValue = letters[i];  
+                            sindex = i;
+                            break;
+                        }
+                    }
+                    letters.splice(sindex, 1); 
+                    originalId = id;
+                    changeBlankTile(draggableId);
+                    $(this).attr("value", value); 
+                    checkDictoinary(id, value);  
+                    calculatePlayScore(value, cls.slice(9, 11));  
+                }
+            }
+
+            ui.draggable.position({  
+                my: "center",
+                at: "center",
+                of: $(this),
+                using: function (pos) {
+                    $(this).animate(pos, 20, "linear");
+                }
+            })
+
+        }
+    })
+
+    $(".snapRack").droppable({
+        out: function () {
+        },
+        drop: function (event, ui) {
+            ui.draggable.position({
+                my: "center",
+                at: "center",
+                of: $(this),
+                using: function (pos) {
+                    $(this).animate(pos, 20, "linear");
+                }
+            })
+        }
+    })
+
+    function checkDictoinary(id, value) {
+        let hw = getWords(id, value); 
+        let vw = getWords(id, value, false); 
+
+        if (hw.length > 1 || vw.length > 1) {
+            adjacentTile = true; 
+        } else {
+            adjacentTile = false;
+        }
+    }
+
+    function changeBlankTile(id) { 
+        if (value === "_") {
+            let alphabet;
+            let pattern = /^[a-zA-Z]/g; 
+            let index;
+
+            let valid = false;
+            do {
+                alphabet = prompt("Please enter letters only");
+                if (alphabet === null || alphabet === "") {} else {
+                    if (alphabet.match(pattern)) {
+                        alphabet = alphabet.toUpperCase();
+                        for (let i = 0; i < json.pieces.length; i++) {
+                            if (alphabet === json.pieces[i].letter) {
+                                index = i;
+                                break;
+                            }
+                        }
+                        if (index === undefined) { 
+                            alert( alphabet + " ran out. Try another letter.");
+                        } else {
+                            json.pieces[index].quantity--
+                            if (json.pieces[index].quantity === 0) {
+                                json.pieces.splice(index, 1);
+                            }
+
+
+                            let image = "url('images/" + alphabet + ".jpg')";
+                            value = alphabet;
+                            $("#" + id).css("background-image", image); 
+                            $("#" + id).attr("value", alphabet);
+                            $("#" + originalId).attr("value", alphabet);
+                            valid = true;
+                        }
+                    }
+                }
+            } while (valid === false);
+        }
+    }
+
+
+    function calculatePlayScore(value, cls) {
+        let index = (value === "_") ? 26 : parseInt(value.charCodeAt(0)) - 65;
+        let playscore = parseInt(json.value[index].value);
+
+        if (cls === "tl") {
+            playscore *= 3;
+        } else if (cls === "dl") {
+            playscore *= 2;
+        }
+        totalPlayScore += playscore;
+
+        if (cls === "tw") {
+            multiplier += 3;
+        } else if (cls === "dw") {
+            multiplier += 2;
+        }
+        totalGameScore += totalPlayScore;
+    }
+
     function generateTable() {
-        //create table and add id attribe 
+
         let table = $("<table>").attr("id", "gtable");
         let tbody = $("<tbody>");
 
@@ -60,49 +240,61 @@ $(function () {
         $("#table").append(table);
     }
 
-    //input ASCII code , return Character
+
     function getLetter(i) {
         const a = 97;
         return String.fromCharCode(a + i);
     }
 
-    function readJson(filePath) {
+    function getLetterPosition(l) { 
+        for (let i = 0; i < json.pieces.length; i++) {
+            if (l === json.pieces[i].letter) {
+                return i;
+            }
+        }
+        return undefined;
+    }
+
+
+    function readJson(filePath) {  
         $.getJSON(filePath, function (data) {
             console.log(data);
         });
 
-    };
+    }; 
+
 
     var tileID = [];
     let uniqueNum = 0;
-    var availableLetter = 100;
 
-    //generate 7 letter and save to an array of objects
-    function generateLetter() {
-        let l = [];
-        //logic for when are less than 7 letters left
-        let p = (availableLetter >= (7 - letters.length)) ? 7 : letters.length + availableLetter;
+    var availableLetter = 100;  
+
+    function generateLetter() { 
+        let p = (availableLetter >= (7 - letters.length)) ? 7 : letters.length + availableLetter; 
         for (let i = letters.length; i < p; i++) {
+
             let randomIndex = getRandomIndex();
-            //save the letter and its value
-            let obj = {
-                "letter": json.pieces[randomIndex].letter,
-                "value": json.pieces[randomIndex].value
+            let letter = (json.pieces[randomIndex].letter).toUpperCase();
+            let valueIndex = (letter === "_") ? 26 : parseInt(letter.charCodeAt(0)) - 65;
+            let obj = { 
+                "letter": letter,
+                "value": json.value[valueIndex].value
             };
-            json.pieces[randomIndex].quantity--;
+            json.pieces[randomIndex].quantity--;  
             letters.push(obj);
-            availableLetter--;
+            availableLetter--; 
+            if (json.pieces[randomIndex].quantity <= 0) {
+                json.pieces.splice(randomIndex, 1); 
+            }
         }
     }
-    generateLetter();
-    reRackLetter();
+    generateLetter(); 
+    reRackLetter(); 
 
-    //put the "7" letters in the array on the rack
-    function reRackLetter() {
+
+    function reRackLetter() { 
         let exist = false;
-
-        //remove the tiles that is not played before getting new tiles
-        for (let i = 0; i < tileID.length; i++) {
+        for (let i = 0; i < tileID.length; i++) { 
             let id = tileID[i];
             exist = false;
             for (let j = 0; j < playedLetter.length; j++) {
@@ -121,63 +313,88 @@ $(function () {
         for (let i = 0; i < letters.length; i++) {
             let image = "url('images/" + letters[i].letter + ".jpg')";
             let tiles = $("<div>").addClass("tiles");
-            let id = "#" + getLetter(i);
 
+            let id = "#" + getLetter(i);
             tiles.css("background-image", image);
             tiles.attr("value", letters[i].letter);
             tiles.attr("id", "tile" + uniqueNum);
             tileID.push("tile" + uniqueNum);
             uniqueNum++;
 
-            $(tiles).appendTo(id).draggable({ 
+            $(tiles).appendTo(id).draggable({
                 snap: ".snap",
                 snapMode: "inner",
-                revert: function (obj) {
+                revert: function (event, ui) {
                     if (putBack) {
-                        return false;
+                        return false; 
                     }
-                    if (gameStart) {
+                    if (gameStart) { 
                         if (firstTile) {
                             firstTile = false;
                             $(this).draggable("disable");
-                            $("#" + originalId).droppable("option", "disabled", true);
                             playedLetter.push($(this).attr("id"));
-                            return false;
+                            return false; 
                         } else {
+                            if (revert) { 
+                                revert = false;
+                                return true;
+                            }
                             if (adjacentTile) {
                                 playedLetter.push($(this).attr("id"));
                                 return false;
                             } else {
-                                if (originalValue === undefined) {
-                                    $("#" + originalId).removeAttr("value");
-                                } else {
-                                    $("#" + originalId).attr("value", originalValue);
-                                }
-                                letters.push(objValue);
-                                alert("Tile needs to be sequential.");
+                                $("#" + originalId).removeAttr("value");
+                                $("#" + originalDropOutID).attr("value", originalValue);
+                                letters.push(objValue); 
+                                alert("need to be in straight line . revert first 1");
                                 $("#play").attr("disabled", "disabled");
-                                return true;
+                                return true; 
                             }
                         }
                     } else {
-                        alert("Please start the game from the center star tile.");
+                        alert("Please start the game from the star tile ");
+
                         return true;
                     }
                 },
                 drag: function () {
-                    draggableId = $(this).attr("id");
-                    value = $(this).attr("value");
+                    draggableId = $(this).attr("id");  
+                    value = $(this).attr("value");  
                 }
+
             });
         }
     }
 
-    // when user want to change the their letter with the bag letter
+
+    $("#play").click(function () {
+        console.log(playedLetter);
+        if (!gameStart || playedLetter.length <= 0) {
+            alert("Please place letter on the board to play");
+        } else {
+            multiplier = (multiplier === 0) ? 1 : multiplier;
+            let currentScore = parseInt($("#score").text()) + totalPlayScore * multiplier;
+            $("#score").text(currentScore);
+            for (let i = 0; i < playedLetter.length; i++) {
+                $("#" + playedLetter[i]).draggable("disable");
+            }
+            swap();
+        }
+    });
+
     function swap() {
         for (let i = 0; i < letters.length; i++) {
             let l = letters[i].letter;
-            let index = (l === "_") ? 26 : parseInt(l.charCodeAt(0)) - 65;
-            json.pieces[index].quantity = json.pieces[index].quantity + 1;
+            let index = getLetterPosition(l);
+            if (index === undefined) {
+                let obj = {
+                    "letter": l,
+                    "quantity": 1
+                }
+                json.pieces.push(obj);
+            } else {
+                json.pieces[index].quantity = json.pieces[index].quantity + 1; 
+            }
             availableLetter++;
         }
         letters.length = 0;
@@ -188,19 +405,7 @@ $(function () {
     }
 
     function getRandomIndex() {
-        let index;
-        do {
-            index = parseInt(Math.random() * 37 % 27);
-            if (availableLetter <= 7) {
-                for (let i = 0; i < json.pieces.length; i++) {
-                    if (json.pieces[i].quantity > 0) {
-                        return i;
-                    }
-                }
-            }
-        } while (json.pieces[index].quantity <= 0);
-
-        return index;
+        return parseInt(Math.random() * 37 % json.pieces.length);
     }
 
 
@@ -266,185 +471,4 @@ $(function () {
                 }
         }
     }
-
-
-    // function checks if current word is vertical or horizontal and gets the most current word
-    function getWords(id, words, orientation = true) {
-        let bidn, fidn, bvalue, fvalue, la, lb, next, prev;
-        next = prev = 1;
-        bidn = fidn = id.slice(1);
-        la = lb = id.slice(0, 1);
-        do {
-            if (orientation) {
-                bidn = parseInt(bidn) - prev;
-                fidn = parseInt(fidn) + next;
-            } else {
-                la = String.fromCharCode(parseInt(la.charCodeAt(0)) - prev);
-                lb = String.fromCharCode(parseInt(lb.charCodeAt(0)) + next);
-            }
-            bvalue = $("#" + la + bidn).attr("value");
-            fvalue = $("#" + lb + fidn).attr("value");
-            if (bvalue !== undefined) {
-                words = bvalue + words;
-
-            } else {
-                prev = 0;
-            }
-            if (fvalue !== undefined) {
-                words = words + fvalue;
-            } else {
-                next = 0;
-            }
-        } while (bvalue !== undefined || fvalue !== undefined);
-        return words;
-    }
-
-    let dropout = false;
-    $(".snap").droppable({
-        out: function () {
-            if (!dropout) {
-                $(this).removeAttr("value");
-                dropout = true;
-            }
-        },
-        drop: function (event, ui) {
-            let id = $(this).attr("id");
-            let cls = $(this).attr("class");
-            //check if the star tile is already used
-            let star = $("#h7").attr("value");
-            dropout = false;
-
-            if (cls.slice(5, 16) === "letterStand") {
-                putBack = true;
-            } else {
-                putBack = false;
-            }
-
-            if (id !== "h7" && star === undefined) {
-                console.log(gameStart)
-            } else {
-                gameStart = true;
-                originalValue = $("#" + id).attr("value");
-                originalId = id;
-                changeBlankTile(draggableId);
-                $("#" + id).attr("value", value);
-                checkDictoinary(id, value);
-                calculatePlayScore(value, cls.slice(9, 11));
-                
-                let sindex;
-                for (let i = 0; i < letters.length; i++) {
-                    if (value === letters[i].letter) {
-                        objValue = letters[i];
-                        sindex = i;
-                        break;
-                    }
-                }
-                letters.splice(sindex, 1);
-            }
-
-            ui.draggable.position({
-                my: "center",
-                at: "center",
-                of: $(this),
-                using: function (pos) {
-                    $(this).animate(pos, 20, "linear");
-                }
-            })
-        }
-    })
-
-    $(".snapRack").droppable({
-        out: function () {
-            let id = $(this).attr('id');
-        },
-        drop: function (event, ui) {
-            let id = $(this).attr('id');
-            let index = playedLetter.indexOf(id);
-            ui.draggable.position({
-                my: "center",
-                at: "center",
-                of: $(this),
-                using: function (pos) {
-                    $(this).animate(pos, 20, "linear");
-                }
-            })
-        }
-    })
-
-    function checkDictoinary(id, value) {
-        //getting horizonal and veritcal words
-        let hw = getWords(id, value);
-        let vw = getWords(id, value, false);
-
-        if (hw.length > 1 || vw.length > 1) {
-            adjacentTile = true;
-        } else {
-            adjacentTile = false;
-        }
-    }
-
-    function changeBlankTile(id) {
-        if (value === "_") {
-            let alphabet;
-            let pattern = /^[a-zA-Z]/g;
-            let index;
-            let valid = false;
-
-            do {
-                alphabet = prompt("Please enter letters only.");
-                if (alphabet === null || alphabet === "") {} else {
-                    if (alphabet.match(pattern)) {
-                        alphabet = alphabet.toUpperCase();
-                        index = alphabet.charCodeAt(0) - 65;
-                        if (json.pieces[index].quantity <= 0) {
-                            alert(alphabet + " ran out. Try a new letter.");
-                        } else {
-                            json.pieces[index].quantity--;
-                            let image = "url('images/" + alphabet + ".jpg')";
-                            value = alphabet;
-                            $("#" + id).css("background-image", image);
-                            $("#" + id).attr("value", alphabet);
-                            $("#" + originalId).attr("value", alphabet);
-                            valid = true;
-                        }
-                    }
-                }
-            } while (valid === false);
-        }
-    }
-
-
-    $("#play").click(function () {
-        let cls = $(this).attr("class");
-        if (!gameStart || playedLetter.length <= 0) {
-            alert("Place letter on the board to play");
-        } else {
-            multiplier = (multiplier === 0) ? 1 : multiplier;
-            let currentScore = parseInt($("#score").text()) + totalPlayScore * multiplier;
-            $("#score").text(currentScore);
-            swap();
-        }
-    });
-
-    function calculatePlayScore(value, cls) {
-        //calculate the index of json
-        let index = (value === "_") ? 26 : parseInt(value.charCodeAt(0)) - 65;
-
-        //get the corresponding value from the json/bag 
-        let playscore = parseInt(json.pieces[index].value);
-
-        if (cls === "tl") {
-            playscore *= 3;
-        } else if (cls === "dl") {
-            playscore *= 2;
-        }
-        totalPlayScore += playscore;
-
-        if (cls === "tw") {
-            multiplier += 3;
-        } else if (cls === "dw") {
-            multiplier += 2;
-        }
-        totalGameScore += totalPlayScore;
-    }
-})
+});
