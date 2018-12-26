@@ -1,0 +1,203 @@
+body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-width: 700px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+.gth {
+    background-size: 100%;
+}
+
+
+td {
+    border: 1px solid black;
+    width: 38px;
+}
+
+tr {
+
+    height: 38px;
+
+}
+
+#scrabble {
+    /* border: 2px solid blue; */
+    position: relative;
+}
+
+#table {
+    padding: 5px;
+    margin: auto;
+    display: inline-block;
+    margin-left: 50px;
+    width: 610px;
+    height: 580px;
+}
+
+#gtable {
+    border: 5px solid red;
+    border-collapse: collapse;
+    display: inline-block;
+    width: 600px;
+    height: 571px;
+
+}
+
+#rack {
+    position: absolute;
+    width: 420px;
+    height: 60px;
+    background-image: url("../images/rack.png");
+    background-size: 100% 100%;
+}
+
+#stand {
+    border: 1px solid blue;
+    width: 390px;
+    height: 44px;
+    position: absolute;
+    margin: auto;
+    right: 0px;
+    /* top: 10px; */
+    padding: 5px;
+}
+
+.standTable {
+    position: absolute;
+    right: 25px;
+    top: 10px;
+    border-spacing: 10px 0px;
+}
+
+.standTable td {
+    border: none;
+    position: relative;
+}
+
+#swap {
+    left: 20px;
+}
+
+#swap:disabled {
+    color: gray;
+    background-image: url("../images/disableButton.png");
+}
+
+#swap:disabled:hover {
+    box-shadow: none;
+}
+
+#play {
+    left: 100px;
+}
+
+.button {
+    background-image: url("../images/activeButton.png");
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    font-size: 15px;
+    padding: 8px 15px;
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 70px;
+
+}
+
+.button:hover {
+    box-shadow: 2px 2px 5px gray;
+}
+
+#player {
+    position: absolute;
+    width: 430px;
+    height: 100px;
+    top: 80px;
+    margin-left: 80px;
+
+}
+
+.scoreBoard {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    margin-left: 80px;
+    position: absolute;
+    height: 60px;
+    width: 430px;
+    top: 10px;
+}
+
+.scoreBoard > p {
+    margin-top: 0px;
+    margin-left: 20px;
+    width: 250px;
+    text-align: left;
+
+}
+
+#playerBoard {
+    display: inline-block;
+    width: 600px;
+    height: 598px;
+    position: absolute;
+    top: 0px;
+    margin-left: 20px;
+}
+
+.tiles {
+    background-image: url("../images/A.jpg");
+    right: 0px;
+    top: 0px;
+    width: 38px;
+    height: 36px;
+    position: absolute;
+    cursor: pointer;
+    background-size: 100%;
+    border-radius: 2px;
+    opacity: 0.75;
+
+}
+
+
+
+
+/* set images for scrabble board */
+.tw {
+    background-image: url("../images/tw.png");
+}
+
+.dl {
+    background-image: url("../images/dl.png");
+}
+
+.dw {
+    background-image: url("../images/dw.png");
+}
+
+.tl {
+    background-image: url("../images/tl.png");
+}
+
+.star {
+    background-image: url("../images/star.png");
+}
+
+@media screen and (max-width: 1100px) {
+    body {
+        background-color: lightgreen;
+        /* background-image: url("../images/ScrabbleBoard.jpg"); */
+    }
+
+    #playerBoard {
+        display: block;
+        top: 600px;
+        width: 628px;
+        margin: 10px 50px;
+        left: 0px;
+    }
+}

@@ -1,0 +1,65 @@
+<!--
+Marittya Keu
+marittya_keu@student.uml.edu
+GUI Programming 1 Homework 6
+
+Description: This assignment is to create a page that dynamically generate a
+multiplication table from a users input. Grabs users input from a form and
+uses values in a double for loop to do
+the multiplcation.
+-->
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Homework 6</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Dynamic Multiplication Table</h1>
+      <p>
+        Please enter values to populate the mutliplcation table.
+      </p>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <form class="form">
+            <label>Horizontal Start: </label>
+            <input type="text" id="hstart" placeholder="start" />
+            <br />
+
+            <label>Horizontal End:</label>
+            <input type="text" id="hend" placeholder="end" />
+            <br />
+            <label>Vertical Start: </label>
+            <input type="text" id="vstart" placeholder="start" />
+            <br />
+            <label>Vertical End:</label>
+            <input type="text" id="vend" placeholder="start" />
+            <br />
+            <br />
+
+            <button type="button" onClick="doSomething()" class="btn btn-danger">Submit</button>
+            <button type="reset" class="btn btn-dark">Reset</button>
+            <button type="reset" onClick="clearForm()" class="btn btn-success">Clear</button>
+        </div>
+
+
+        <br />
+        <div class="col-md-8">
+          <table class="table" id="table1">
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <script src="./js/script.js"></script>
+
+
+  </body>
+
+</html>

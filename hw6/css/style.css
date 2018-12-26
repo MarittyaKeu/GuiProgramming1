@@ -1,0 +1,45 @@
+/*
+Marittya Keu
+marittya_keu@student.uml.edu
+GUI Programming 1 Homework 6
+CSS file
+*/
+body {
+  padding-top: 7%;
+}
+
+header {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+form input {
+  display: inline-block;
+  width: 100%;
+}
+
+tr:nth-child(even) {
+  background-color: #3e0000;
+  color: white;
+}
+
+tr:nth-child(odd) {
+  background-color: #7c0000;
+  color: white;
+}
+
+.thead {
+  background-color: #000000;
+  color: white;
+}
+
+
+.thead2 {
+  background-color: #f80000;
+  color: white;
+}
+
+
+.firstth {
+  background-color: white;
+}
