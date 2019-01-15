@@ -1,5 +1,5 @@
-Marittya Keu
-GUI Programming 1
+## Marittya Keu
+### GUI Programming 1
 
 The site is hosted via GitPages 
 https://marittyakeu.github.io/GuiProgramming1/
