@@ -13,7 +13,7 @@ The first two homework consist of creating our first website with basic HTML and
 For this assignment we were given a bare bone html file with all of the necessary elements. Our task was to use advanced CSS techniques to target and style the file to look a specific way.
 
 ### Assignment 4
-Assignment 4 was to build on top of homework 1 and 2 and to use more advanced CSS techniques. Also we started added links to our previous/future homework.
+Assignment 4 was to build on top of homework 1 and 2 and to use more advanced CSS techniques. Also we started adding links to our previous/future homework.
 
 ### Assignment 5
 Assignment 5 was simply to get our website hosted on GitPages.
