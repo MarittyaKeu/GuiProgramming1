@@ -9,7 +9,7 @@ This repository contains homework assignments for my GUI Programming 1 class. (F
 ### Homework 1 & 2
 The first two homework consist of creating our first website with basic HTML and CSS techniques and hosting it on our CS server. The website consist of a bio of myself.
 
-#### Homework 3
+### Homework 3
 For this assignment we were given a bare bone html file with all of the necessary elements. Our task was to use advanced CSS techniques to target and style the file to look a specific way.
 
 ### Assignment 4
