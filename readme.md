@@ -25,7 +25,7 @@ Assignment 6 was to create a dynamic multiplication table using JavaScript.
 For this assignment, we used jQuery for form validation to validate user inputs from homework 6.
 
 ### Assignment 8
-For this assignment, we used the jQuery UI library to create dynamic sliders for use inputs. I also added a tabbed interface to save previous multiplication table.
+For this assignment, we added on to homework 6 and 7 and used the jQuery UI library to create dynamic sliders for user inputs. I also added a tabbed interface to save previous multiplication table.
 
 ### Assignment 9
 Our final assignment, we created a Scrabble board game using all of the previous techiques we've learned thus far. The assignment included a full scoring logic which included double, triple letters, etc.
