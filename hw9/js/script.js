@@ -2,7 +2,6 @@
     Marittya Keu
     GUI Programming 1
     Homework 9
-    File: script.css
 */
 
 let putBack = false; 
